@@ -21,7 +21,12 @@ use core::fmt::{self, Display, Debug, Formatter};
 
 use crate::Marker;
 
+#[cfg(feature = "alloc")]
 pub mod buffer;
+#[cfg(feature = "heapless")]
+pub mod buffer_heapless;
+
+#[cfg(feature = "alloc")]
 pub use buffer::ByteBuf;
 
 #[doc(inline)]
@@ -117,7 +122,7 @@ mod sealed{
     #[cfg(all(feature = "heapless", not(feature = "std")))]
     impl<const N: usize> Sealed for heapless::Vec<u8, N> {}
     #[cfg(all(feature = "heapless", not(feature = "std")))]
-    impl<const N: usize> Sealed for super::ByteBuf<N> {}
+    impl<const N: usize> Sealed for super::buffer_heapless::ByteBuf<N> {}
 }
 
 
